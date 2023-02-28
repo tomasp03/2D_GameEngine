@@ -147,7 +147,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\OpenGL_RT\dependencies\include\GLAD\glad.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="basic.frag" />
+    <None Include="basic.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
