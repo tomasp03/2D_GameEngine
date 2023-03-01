@@ -4,9 +4,39 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define S_WIDTH 1200
 #define S_HEIGHT 1200
+
+static float vertices[90];
+static std::vector<float> vertexData;
+
+struct Color
+{
+	float R;
+	float G;
+	float B;
+
+	Color(float r, float g, float b)
+		: R(r), G(g), B(b){}
+};
+
+void DrawSquare(float x, float y, float size, Color color)
+{	
+	vertexData.push_back(x);            //left up
+	vertexData.push_back(y);
+	vertexData.push_back(x);            //left up
+	vertexData.push_back(y);            
+	vertexData.push_back(x + size);     //right up
+	vertexData.push_back(y);
+	vertexData.push_back(x);            //left down
+	vertexData.push_back(y - size);
+	vertexData.push_back(x + size);     //right down
+	vertexData.push_back(y - size);
+	vertexData.push_back(x + size);     //right down
+	vertexData.push_back(y - size);
+}
 
 //Fragment Shader source code
 std::string  LoadShader(const char* filename)
@@ -27,19 +57,25 @@ std::string  LoadShader(const char* filename)
 
 int main()
 {
+	DrawSquare(-0.8f, 0.8f, 0.5f, Color(1.0f, 0.0f, 0.0f));
+	DrawSquare(0.8f, 0.8f, 0.15f, Color(0.0f, 0.0f, 1.0f));
+	DrawSquare(0.0f, 0.3f, 0.15f, Color(0.0f, 0.0f, 1.0f));
+	DrawSquare(0.9f, 0.6f, 0.15f, Color(0.0f, 0.0f, 1.0f));
+
+
+	int i = 0;
+	for(float vertex : vertexData)
+	{
+		std::cout << vertex << std::endl;
+		vertices[i++] = vertex;
+	}
 	std::string vs = LoadShader("basic.vert");
 	const char* vertexSource = vs.c_str();
-	std::cout << "=======================================" << '\n';
+
 	std::string fs = LoadShader("basic.frag");
 	const char* fragmentSource = fs.c_str();
 
 	// Vertices coordinates
-	GLfloat vertices[] =
-	{
-		-0.5f, -0.5f * float(sqrt(3)) / 3,   1.0f, 0.0f, 0.0f,        // Lower left corner
-		0.5f, -0.5f * float(sqrt(3)) / 3,    0.0f, 1.0f, 0.0f,        // Lower right corner
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, 0.0f, 1.0f         // Upper corner
-	};
 
 	glfwInit();
 
@@ -122,12 +158,15 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Configure the Vertex Attribute so that OpenGL knows how to read the VBO
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), (void*)0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(2*sizeof(float)));
+
 
 	// Enable the Vertex Attribute so that OpenGL knows to use it
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	//glEnableVertexAttribArray(1);
+
+
 
 
 	// Bind both the VBO and VAO to 0 so that we don't accidentally modify the VAO and VBO we created
@@ -143,7 +182,7 @@ int main()
 
 		glBindVertexArray(VAO);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 90);
 
 		glfwSwapBuffers(window);
 
