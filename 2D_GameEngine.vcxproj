@@ -147,11 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawSquare.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGL_RT\dependencies\include\GLAD\glad.h" />
+    <ClInclude Include="DrawSquare.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="basic.frag" />

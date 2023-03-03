@@ -21,9 +21,15 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrawSquare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OpenGL_RT\dependencies\include\GLAD\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawSquare.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
